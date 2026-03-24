@@ -97,9 +97,13 @@ Create a `.env` file:
 
 env--
 DB_NAME=event_system
+
 DB_USER=root
+
 DB_PASS=Arti@2005
+
 DB_HOST=localhost
+
 PORT=3000
 
 ---
