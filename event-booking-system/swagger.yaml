@@ -1,0 +1,106 @@
+openapi: 3.0.0
+info:
+  title: Event Booking System API
+  version: 1.0.0
+  description: API for managing events and bookings
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+
+  /events:
+    get:
+      summary: Get all events
+      responses:
+        200:
+          description: List of events
+          content:
+            application/json:
+              example:
+                - id: 1
+                  title: Tech Event
+                  description: Node.js Workshop
+                  date: "2026-04-01T10:00:00.000Z"
+                  total_capacity: 100
+                  remaining_tickets: 80
+
+    post:
+      summary: Create a new event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              title: Tech Event
+              description: Node.js Workshop
+              date: "2026-04-01T10:00:00.000Z"
+              capacity: 100
+      responses:
+        200:
+          description: Event created successfully
+
+  /bookings:
+    post:
+      summary: Book a ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              user_id: 1
+              event_id: 1
+      responses:
+        200:
+          description: Booking successful
+          content:
+            application/json:
+              example:
+                id: 1
+                user_id: 1
+                event_id: 1
+                booking_code: "abc-123-xyz"
+
+        400:
+          description: No tickets available
+
+  /users/{id}/bookings:
+    get:
+      summary: Get all bookings of a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: User bookings list
+          content:
+            application/json:
+              example:
+                - id: 1
+                  user_id: 1
+                  event_id: 1
+                  booking_code: "abc-123"
+
+  /events/{id}/attendance:
+    post:
+      summary: Mark attendance using booking code
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              code: "abc-123"
+      responses:
+        200:
+          description: Attendance marked
+        404:
+          description: Invalid booking code
